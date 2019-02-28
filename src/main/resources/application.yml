@@ -15,5 +15,8 @@ kafka:
     intradaytrade: IntraDayTrade
     calccontext: CalculationContext
     market: MarketEnv
-zookeeper:
-    server: zookeepr.kafka.svc.cluster.local:2181
+com:
+  google:
+    projectId: <GOOGLE_PROJECT_ID>
+
+

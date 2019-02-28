@@ -23,14 +23,21 @@ This is a set of classes that model the set of business objects such as risks, t
 
 
 <h1>Using the simulator</h1>
-The simulator automatically publishes to Kafka, so you will need to install both Zookeeper and Kafka and have those
-running.  Take a look at the application.yml file to understand which ports and topics are defined, these can be
-changed to whatever you want. Alternatively to stop the simulator publishing just comment out
+Make sure you have installed the gcloud command line tools.
+
+If you are running this locally, install mongodb and ensure you are running it and is accessible on the uri described below.
+
+Make sure you create Pub/Sub Topics with the names as described in thekafka:topic: section below.
+
+The simulator automatically publishes to Pub/Sub. Take a look at the application.yml file to understand which ports and topics are defined, these can be changed to whatever you want. Alternatively to stop the simulator publishing just comment out
 the topic line or set the value to null.
 
 <pre>
 spring:
   profiles: default
+  data:
+    mongodb:
+      uri: mongodb://localhost/risk
 server:
   port: 30001
   #port: ${PORT:${SERVER_PORT:0}}
@@ -43,6 +50,9 @@ kafka:
     intradaytrade: IntraDayTrade
     calccontext: CalculationContext
     market: MarketEnv
+com:
+  google:
+    project: <GOOGLE_PROJECT_ID> #modify this in your application.yml
 </pre>
 
 To start the simulator run the following
@@ -488,15 +498,11 @@ The simulator simulates the following set of events
 <h1>Docker & Kubernetes</h1>
 To create a docker image for the application use the maven <tt>dockerfile:build</tt> and <tt>dockerfile:push</tt> tasks.  Ensure that you change the <tt>docker.image.prefix</tt> value to point to your dockerhub login name.
 
-<h3>Kafka and ZooKeeper</h3>
-To deploy ZooKeeper and Kafka with persistence storage we use the deploy scripts from Yolean. Clone following git repo.
-<p>
-<a href="https://github.com/Yolean/kubernetes-kafka">https://github.com/Yolean/kubernetes-kafka</a>
-</p>
-Follow the instructions there and this should give a fully functioning Kafka cluster.
-
-Next you will need to deploy MongoDB (with persistence). Use the supplied deploy script <tt>Mongodbk8sNdode1.yml</tt>.
-
-Finally deploy the application using <tt>MockSimulator.yml</tt>
-
-
+There are several kubernetes deploy scripts to help deploy MongoDB, ZooKeeper and Kafka.  These can be found in the kubernetes directory.  The order of setup is fairly straight forward
+<ul>
+<li>MongoDB</li>
+<li>ZooKeeper</li>
+<li>KafkaService</li>
+<li>KafkaBroker</li>
+<li>MockSimulator</li>
+</ul>

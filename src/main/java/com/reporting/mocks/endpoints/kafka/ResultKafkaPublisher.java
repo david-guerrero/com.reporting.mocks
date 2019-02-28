@@ -36,7 +36,9 @@ public class ResultKafkaPublisher implements IResultPublisher {
 
 
     @Override
-    public void publishIntradayRiskResult(RiskResult riskResult) { this.riskResultProducer.send(riskResult); }
+    public void publishIntradayRiskResult(RiskResult riskResult) { 
+        this.riskResultProducer.send(riskResult); 
+    }
 
     @Override
     public void publishIntradayTrade(TradeLifecycle tradeLifecycle) {

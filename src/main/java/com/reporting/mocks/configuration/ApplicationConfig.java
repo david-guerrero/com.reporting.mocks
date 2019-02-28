@@ -44,4 +44,8 @@ kafka:
     public String getMarketEnvTopic() {
         return environment.getProperty("kafka.topic.market");
     }
+
+    public String getProjectId() {
+        return environment.getProperty("com.google.projectId");
+    }
 }

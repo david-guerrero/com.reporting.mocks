@@ -1,10 +1,25 @@
+/*
+ * Copyright (C) 2018 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
 package com.reporting.mocks.process;
 
 import com.reporting.mocks.configuration.ApplicationConfig;
 import com.reporting.mocks.configuration.PricingGroupConfig;
 import com.reporting.mocks.endpoints.IResultPublisher;
 import com.reporting.mocks.endpoints.JavaQueue.RiskRunConsumerThread;
-import com.reporting.mocks.endpoints.kafka.ResultKafkaPublisher;
+import com.reporting.mocks.endpoints.pubsub.ResultPubSubPublisher;
 import com.reporting.mocks.generators.process.minibatch.RiskRunGeneratorThread;
 import com.reporting.mocks.generators.TradeGenerator;
 import com.reporting.mocks.generators.process.streaming.StreamRiskResultPublisherThread;
@@ -61,7 +76,7 @@ public class ProcessSimulator {
         this.riskResultStore = riskResultStore;
         this.tradeGenerator = new TradeGenerator(config.getTradeConfig());
         this.processEventQueues = new JavaProcessEventQueues();
-        this.resultPublisher = new ResultKafkaPublisher(appConfig);
+        this.resultPublisher = new ResultPubSubPublisher(appConfig);
         //this.riskRunPublisher = new IResultSetResultQueuePublisher(this.processEventQueues.getRiskResultSetQueue());
     }
 
